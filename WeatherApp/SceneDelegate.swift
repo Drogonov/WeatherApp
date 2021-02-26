@@ -10,13 +10,27 @@ import UIKit
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    let defaults = UserDefaults.standard
+    var tempType = TemperatureSettings()
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+//        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
+//        guard let _ = (scene as? UIWindowScene) else { return }
+        
+        if let temp = defaults.value(forKey: "savedTemperature") {
+            tempType = TemperatureSettings(rawValue: temp as! String) ?? .celsius
+        }
+        
+        guard let scene = scene as? UIWindowScene else { return }
+        window = UIWindow(windowScene: scene)
+        window?.makeKeyAndVisible()
+        let nav = UINavigationController()
+        let main = WeatherViewController(tempType: tempType)
+        nav.viewControllers = [main]
+        window?.rootViewController = nav
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
