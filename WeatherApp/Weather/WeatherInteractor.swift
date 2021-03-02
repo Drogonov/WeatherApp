@@ -9,18 +9,27 @@
 import UIKit
 
 protocol WeatherBusinessLogic {
-  func makeRequest(request: Weather.Model.Request.RequestType)
+    func makeRequest(request: Weather.Model.Request.RequestType)
 }
 
 class WeatherInteractor: WeatherBusinessLogic {
+    var presenter: WeatherPresentationLogic?
+    var service: WeatherService?
+    
+    var dataFetcherService = DataService()
+  
+    func makeRequest(request: Weather.Model.Request.RequestType) {
+        if service == nil {
+            service = WeatherService()
+        }
 
-  var presenter: WeatherPresentationLogic?
-  var service: WeatherService?
-  
-  func makeRequest(request: Weather.Model.Request.RequestType) {
-    if service == nil {
-      service = WeatherService()
+        switch request {
+        case .getWeatherData:
+            let weatherInCities = service?.getWeatherArray()
+            guard let weather = weatherInCities else { return }
+            service?.fetchWeatherInCities(weatherToFetch: weather, completion: { [weak self] (responce) in
+                self?.presenter?.presentData(response: Weather.Model.Response.ResponseType.presentWeather(weatherInCities: responce))
+            })
+        }
     }
-  }
-  
 }

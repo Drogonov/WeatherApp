@@ -29,6 +29,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         window?.makeKeyAndVisible()
         let nav = UINavigationController()
         let main = WeatherViewController(tempType: tempType)
+//        let main = CitySettingsViewController()
         nav.viewControllers = [main]
         window?.rootViewController = nav
     }

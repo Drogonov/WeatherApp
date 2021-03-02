@@ -9,13 +9,19 @@
 import UIKit
 
 protocol WeatherRoutingLogic {
-
+    func showCitySettingsVC(tempType: TemperatureSettings)
 }
 
 class WeatherRouter: NSObject, WeatherRoutingLogic {
 
-  weak var viewController: WeatherViewController?
+    weak var viewController: WeatherViewController?
   
-  // MARK: Routing
-  
+    // MARK: Routing
+    
+    func showCitySettingsVC(tempType: TemperatureSettings) {
+        if let navVC = viewController?.navigationController {
+            let citySettingsVC = CitySettingsViewController(tempType: tempType)
+            navVC.pushViewController(citySettingsVC, animated: true)
+        }
+    }
 }

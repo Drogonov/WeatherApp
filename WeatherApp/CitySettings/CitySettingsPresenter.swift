@@ -1,21 +1,21 @@
 //
-//  WeatherPresenter.swift
+//  CitySettingsPresenter.swift
 //  WeatherApp
 //
-//  Created by Admin on 26.02.2021.
+//  Created by Admin on 27.02.2021.
 //  Copyright (c) 2021 ___ORGANIZATIONNAME___. All rights reserved.
 //
 
 import UIKit
 
-protocol WeatherPresentationLogic {
-    func presentData(response: Weather.Model.Response.ResponseType)
+protocol CitySettingsPresentationLogic {
+    func presentData(response: CitySettings.Model.Response.ResponseType)
 }
 
-class WeatherPresenter: WeatherPresentationLogic {
-    weak var viewController: WeatherDisplayLogic?
-  
-    func presentData(response: Weather.Model.Response.ResponseType) {
+class CitySettingsPresenter: CitySettingsPresentationLogic {
+    weak var viewController: CitySettingsDisplayLogic?
+    
+    func presentData(response: CitySettings.Model.Response.ResponseType) {
         switch response {
         case .presentWeather(weatherInCities: let weatherInCity):
             var cells = [WeatherViewModel.Cell]()
@@ -25,8 +25,8 @@ class WeatherPresenter: WeatherPresentationLogic {
             }
             
             let weatherViewModel = WeatherViewModel.init(cells: cells)
-            viewController?.displayData(viewModel: Weather.Model.ViewModel.ViewModelData.displayWeather(weatherViewModel: weatherViewModel))
-        } 
+            viewController?.displayData(viewModel: CitySettings.Model.ViewModel.ViewModelData.displayWeather(weatherViewModel: weatherViewModel))
+        }
     }
     
     private func cellViewModel(weather: WeatherResponse?) -> WeatherViewModel.Cell {
@@ -35,5 +35,4 @@ class WeatherPresenter: WeatherPresentationLogic {
                                           temperature: String(weather?.main.temp ?? 0),
                                           description: weather?.weather.first?.description ?? "")
     }
-  
 }
