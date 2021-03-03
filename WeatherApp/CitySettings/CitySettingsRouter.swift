@@ -8,24 +8,37 @@
 
 import UIKit
 
+// MARK: - CitySettingsRouting Protocols
+
 protocol CitySettingsRoutingLogic {
+    var dataSource: CitySettingsRouterDataSource? { get set }
+    var dataDestination: CitySettingsRouterDataDestination? { get set }
+    
     func showWeatherVC()
     func showCityAddVC()
 }
 
 protocol CitySettingsRouterDataSource: class {
-
+    //tempType changed in CitySettingsViewController
+    var changedTempType: TemperatureSettings? { get }
+    //weather changed by deleting row or adding new weather from CityAddInteractor
+    var changedWeather: WeatherResponse? { get }
 }
 
 protocol CitySettingsRouterDataDestination: class {
+    // weather from CityAddInteractor
     var weather: WeatherResponse? { get set }
 }
 
 class CitySettingsRouter: NSObject, CitySettingsRoutingLogic {
+    
+    // MARK: - Properties
 
     weak var viewController: CitySettingsViewController?
     weak var dataSource: CitySettingsRouterDataSource?
     weak var dataDestination: CitySettingsRouterDataDestination?
+    
+    // MARK: - Init
     
     init(viewController: CitySettingsViewController,
          dataSource: CitySettingsRouterDataSource,
@@ -50,6 +63,18 @@ class CitySettingsRouter: NSObject, CitySettingsRoutingLogic {
         }
     }
     
+    func passChangedTempType() {
+        if let weatherVC = viewController?.navigationController?.previousViewController() as? WeatherViewController {
+            weatherVC.router?.dataDestination?.tempType = dataSource?.changedTempType
+        }
+    }
+    
+    func passChangedWeather() {
+        if let weatherVC = viewController?.navigationController?.previousViewController() as? WeatherViewController {
+            weatherVC.router?.dataDestination?.weather = dataSource?.changedWeather
+        }
+        
+    }
 }
 
 

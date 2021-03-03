@@ -8,18 +8,27 @@
 
 import UIKit
 
+// MARK: - CityAddPresentationLogic Protocol
+
 protocol CityAddPresentationLogic {
     func presentData(response: CityAdd.Model.Response.ResponseType)
 }
 
+// MARK: - CityAddPresenter
+
 class CityAddPresenter: CityAddPresentationLogic {
+    
+    // MARK: - Properties
+    
     weak var viewController: CityAddDisplayLogic?
+    
+    // MARK: - Responce
     
     func presentData(response: CityAdd.Model.Response.ResponseType) {
         switch response {
-        case .presentWeatherInCity(config: let config):
-            viewController?.displayData(viewModel: CityAdd.Model.ViewModel.ViewModelData.displayWeatherInCity(config: config))
+
+        case .presentWeatherInCity(config: let config, cityName: let cityName):
+            viewController?.displayData(viewModel: CityAdd.Model.ViewModel.ViewModelData.displayWeatherInCity(config: config, cityName: cityName))
         }
     }
-    
 }

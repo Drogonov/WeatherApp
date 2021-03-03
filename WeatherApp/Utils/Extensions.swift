@@ -132,7 +132,7 @@ extension UIColor {
 // MARK: - UIViewController
 
 extension UIViewController {
-    func showNotification(title: String, message: String? = nil, defaultAction: Bool? = nil, defaultActionText: String? = nil) {
+    func showNotification(title: String, message: String? = nil, defaultAction: Bool? = nil, defaultActionText: String? = nil, completion: @escaping() -> Void) {
         let alert = UIAlertController(title: title,
                                       message: message,
                                       preferredStyle: .alert)
@@ -140,8 +140,36 @@ extension UIViewController {
         if defaultAction == true {
             alert.addAction(UIAlertAction(title: defaultActionText, style: .default, handler: { (_) in
                 alert.dismiss(animated: true)
+                completion()
             }))
         }
         self.present(alert, animated: true, completion: nil)
+    }
+}
+
+extension UINavigationController {
+    
+    ///Get previous view controller of the navigation stack
+    func previousViewController() -> UIViewController?{
+        
+        let lenght = self.viewControllers.count
+        
+        let previousViewController: UIViewController? = lenght >= 2 ? self.viewControllers[lenght-2] : nil
+        
+        return previousViewController
+    }
+}
+
+extension Array where Element: Hashable {
+    func removingDuplicates() -> [Element] {
+        var addedDict = [Element: Bool]()
+
+        return filter {
+            addedDict.updateValue(true, forKey: $0) == nil
+        }
+    }
+
+    mutating func removeDuplicates() {
+        self = self.removingDuplicates()
     }
 }

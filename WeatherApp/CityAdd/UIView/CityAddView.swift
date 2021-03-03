@@ -20,7 +20,7 @@ class CityAddView: UIView {
     
     private let titleLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = CityAddViewConstants.titleLabelFont
         label.textAlignment = .center
         label.text = "Введите город"
         label.numberOfLines = 0
@@ -33,9 +33,8 @@ class CityAddView: UIView {
         tf.borderStyle = .none
         tf.clearButtonMode = .always
         tf.clearButtonMode = .whileEditing
-        tf.font = UIFont.systemFont(ofSize: 16)
+        tf.font = CityAddViewConstants.cityNameTextFieldFont
         tf.textColor = UIColor.textColorGray()
-        tf.keyboardAppearance = .dark
         tf.attributedPlaceholder = NSAttributedString(string: "Placeholder", attributes: [NSAttributedString.Key.foregroundColor : UIColor.lightGray])
         return tf
     }()
@@ -49,7 +48,7 @@ class CityAddView: UIView {
     let okButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Ок", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 14)
+        button.titleLabel?.font = CityAddViewConstants.buttonFont
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
         return button
@@ -58,6 +57,7 @@ class CityAddView: UIView {
     let rejectButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Отмена", for: .normal)
+        button.titleLabel?.font = CityAddViewConstants.buttonFont
         button.tintColor = .systemBlue
         button.addTarget(self, action: #selector(rejectButtonTapped), for: .touchUpInside)
         return button
@@ -85,47 +85,39 @@ class CityAddView: UIView {
         delegate?.rejectButtonTapped(withButton: rejectButton)
     }
     
-    // MARK: - Helper Functions
+    // MARK: - ConfigureUI Functions
     
     func configureUI() {
-        
+                
         addSubview(titleLabel)
         titleLabel.anchor(top: self.topAnchor,
                           leading: self.leftAnchor,
-                          paddingTop: 8,
-                          paddingLeading: 8)
+                          paddingTop: CityAddViewConstants.titleLabelPadding,
+                          paddingLeading: CityAddViewConstants.titleLabelPadding)
         
         addSubview(cityNameTextField)
         cityNameTextField.anchor(top: titleLabel.bottomAnchor,
                                  leading: self.leftAnchor,
                                  trailing: self.rightAnchor,
-                                 paddingTop: 8,
-                                 paddingLeading: 16,
-                                 paddingTrailing: 16,
-                                 height: 50)
+                                 paddingTop: CityAddViewConstants.cityNameTextFieldPaddingTop,
+                                 paddingLeading: CityAddViewConstants.cityNameTextFieldPadding,
+                                 paddingTrailing: CityAddViewConstants.cityNameTextFieldPadding,
+                                 height: CityAddViewConstants.cityNameTextFieldHeight)
         
         addSubview(separator)
         separator.anchor(top: cityNameTextField.bottomAnchor,
                          leading: self.leftAnchor,
                          trailing: self.rightAnchor,
-                         height: 1)
+                         height: CityAddViewConstants.separatorHeight)
         
-        addSubview(okButton)
-        okButton.anchor(top: separator.bottomAnchor,
-                        leading: self.leftAnchor,
-                        paddingLeading: (self.frame.width / 2) + 100,
-                        paddingBottom: 8,
-                        width: 100,
-                        height: 50)
+        let stackView = UIStackView(arrangedSubviews: [okButton, rejectButton])
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
         
-        addSubview(rejectButton)
-        rejectButton.anchor(top: separator.bottomAnchor,
-                            trailing: self.rightAnchor,
-                            paddingBottom: 8,
-                            paddingTrailing: (self.frame.width / 2) + 100,
-                            width: 100,
-                            height: 50)
-        
+        addSubview(stackView)
+        stackView.anchor(top: separator.bottomAnchor,
+                         paddingTop: CityAddViewConstants.stackViewPadding,
+                         size: CityAddViewConstants.stackViewSize)
+        stackView.centerX(inView: self)
     }
-    
 }

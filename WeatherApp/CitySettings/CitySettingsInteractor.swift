@@ -8,23 +8,40 @@
 
 import UIKit
 
+// MARK: - CitySettingsLogic Protocol
+
 protocol CitySettingsBusinessLogic {
     func makeRequest(request: CitySettings.Model.Request.RequestType)
 }
 
-protocol CitySettingsDataSource {
+// MARK: - CityAddRouting Protocols
 
+protocol CitySettingsDataSource {
+    var changedTempType: TemperatureSettings? { get }
+    var changedWeather: WeatherResponse? { get }
 }
 
 protocol CitySettingsDataDestination {
     var weather: WeatherResponse? { get set }
 }
 
+// MARK: - CitySettingsInteractor
+
 class CitySettingsInteractor: CitySettingsBusinessLogic, CitySettingsDataSource, CitySettingsDataDestination {
 
+    // MARK: - Properties
+    
     var presenter: CitySettingsPresentationLogic?
     var service: CitySettingsService?
-    var weather: WeatherResponse?
+    var weather: WeatherResponse? {
+        didSet {
+            getLocalWeatherData(tempType: getTempType())
+        }
+    }
+    var changedWeather: WeatherResponse?
+    var changedTempType: TemperatureSettings?
+    
+    // MARK: - Request
     
     func makeRequest(request: CitySettings.Model.Request.RequestType) {
         if service == nil {
@@ -32,22 +49,36 @@ class CitySettingsInteractor: CitySettingsBusinessLogic, CitySettingsDataSource,
         }
         
         switch request {
-        case .getLocalWeatherData:
-            let weatherInCities = service?.getWeatherArray()
-            guard var weather = weatherInCities else { return }
-            
-            if let loadedWeather = self.weather {
-                weather.append(loadedWeather)
-            }
-            
-            presenter?.presentData(response: CitySettings.Model.Response.ResponseType.presentWeather(weatherInCities: weather))
-        case .deleteCity(weatherID: let weatherID):
-            let weatherInCities = service?.deleteCity(weatherID: weatherID)
-            guard let weather = weatherInCities else { return }
-            presenter?.presentData(response: CitySettings.Model.Response.ResponseType.presentWeather(weatherInCities: weather))
+        case .getLocalWeatherData(tempType: let tempType):
+            getLocalWeatherData(tempType: tempType)
+        case .deleteCity(weatherID: let weatherID, tempType: let tempType):
+            deleteCity(weatherID: weatherID, tempType: tempType)
         }
     }
+    
+    // MARK: - Helping Functions
+    
+    func getLocalWeatherData(tempType: TemperatureSettings) {
+        let weatherInCities = service?.getWeatherArray()
+        guard let weather = weatherInCities else { return }
+        self.changedTempType = tempType
+        presenter?.presentData(response: CitySettings.Model.Response.ResponseType.presentWeather(weatherInCities: weather, tempType: tempType))
+    }
+    
+    func deleteCity(weatherID: Int, tempType: TemperatureSettings) {
+        let weatherInCities = service?.deleteCity(weatherID: weatherID)
+        guard let weather = weatherInCities else { return }
+        //MARK: - CRUTCH
+        self.changedWeather = weather.first
+        presenter?.presentData(response: CitySettings.Model.Response.ResponseType.presentWeather(weatherInCities: weather, tempType: tempType))
+    }
+    
+    func getTempType() -> TemperatureSettings {
+        return service?.getTempType() ?? .celsius
+    }
 }
+
+// MARK: - CitySettingsRouter Extensions
 
 extension CitySettingsInteractor: CitySettingsRouterDataSource, CitySettingsRouterDataDestination {
 }

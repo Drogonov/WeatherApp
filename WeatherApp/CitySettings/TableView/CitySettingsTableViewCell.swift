@@ -76,7 +76,7 @@ class CitySettingsTableViewCell: UITableViewCell {
         
     }
         
-    func set(viewModel: WeatherCellViewModel) {
+    func set(viewModel: CitySettingsCellViewModel) {
         cityLabel.text = viewModel.cityName
         tempLabel.text = viewModel.temperature
     }

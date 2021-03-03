@@ -8,15 +8,36 @@
 
 import UIKit
 
+// MARK: - WeatherBusinessLogic Protocol
+
 protocol WeatherBusinessLogic {
     func makeRequest(request: Weather.Model.Request.RequestType)
 }
 
-class WeatherInteractor: WeatherBusinessLogic {
+// MARK: - CityAddRouting Protocols
+
+protocol WeatherSettingsDataSource {
+
+}
+
+protocol WeatherDataDestination {
+    var tempType: TemperatureSettings? { get set }
+    var weather: WeatherResponse? { get set }
+}
+
+// MARK: - WeatherInteractor
+
+class WeatherInteractor: WeatherBusinessLogic, WeatherSettingsDataSource, WeatherDataDestination{
+
+    // MARK: - Properties
+    
     var presenter: WeatherPresentationLogic?
     var service: WeatherService?
+    var weather: WeatherResponse?
+    var tempType: TemperatureSettings?
     
-    var dataFetcherService = DataService()
+    
+    // MARK: - Request
   
     func makeRequest(request: Weather.Model.Request.RequestType) {
         if service == nil {
@@ -32,4 +53,9 @@ class WeatherInteractor: WeatherBusinessLogic {
             })
         }
     }
+}
+
+// MARK: - WeatherRouter Extensions
+
+extension WeatherInteractor: WeatherRouterDataSource, WeatherRouterDataDestination {
 }

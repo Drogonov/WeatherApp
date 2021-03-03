@@ -13,20 +13,29 @@ enum CitySettings {
     enum Model {
         struct Request {
             enum RequestType {
-                case getLocalWeatherData
-                case deleteCity(weatherID: Int)
+                case getLocalWeatherData(tempType: TemperatureSettings)
+                case deleteCity(weatherID: Int, tempType: TemperatureSettings)
             }
         }
         struct Response {
             enum ResponseType {
-                case presentWeather(weatherInCities: [WeatherResponse?])
+                case presentWeather(weatherInCities: [WeatherResponse], tempType: TemperatureSettings)
             }
         }
         struct ViewModel {
             enum ViewModelData {
-                case displayWeather(weatherViewModel: WeatherViewModel)
+                case displayWeather(citySettingsViewModel: CitySettingsViewModel)
             }
         }
     }
-    
+}
+
+struct CitySettingsViewModel {
+    struct Cell: CitySettingsCellViewModel {
+        var id: Int
+        
+        var cityName: String
+        var temperature: String
+    }
+    var cells: [Cell]
 }

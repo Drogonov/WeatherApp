@@ -8,11 +8,17 @@
 import Foundation
 import UIKit
 
+protocol CitySettingsCellViewModel {
+    var cityName: String { get }
+    var temperature: String { get }
+}
+
+
 class CitySettingsTableView: UITableView {
     
     // MARK: - Properties
     
-    var weather = [WeatherCellViewModel]()
+    var weather = [CitySettingsCellViewModel]()
     
     // MARK: - Init
     
@@ -26,6 +32,7 @@ class CitySettingsTableView: UITableView {
                  forCellReuseIdentifier: CitySettingsTableViewCell.reuseId)
         rowHeight = UITableView.automaticDimension
         estimatedRowHeight = 80
+        
         sectionFooterHeight = 80
         backgroundColor = UIColor.backgroundColorWhite()
         contentInsetAdjustmentBehavior = .never
@@ -37,8 +44,9 @@ class CitySettingsTableView: UITableView {
     
     // MARK: - Helper Functions
     
-    func set(weather: [WeatherCellViewModel]) {
+    func set(weather: [CitySettingsCellViewModel]) {
         self.weather = weather
+        contentOffset = CGPoint.zero
         reloadData()
     }
 }

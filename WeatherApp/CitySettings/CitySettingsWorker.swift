@@ -9,11 +9,18 @@
 import UIKit
 
 class CitySettingsService {
-    var dataService: DataService
+    
+    // MARK: - Properties
+    
+    private var dataService: DataService
+    
+    // MARK: - Init
     
     init() {
         self.dataService = DataService()
     }
+    
+    //MARK: - Service Functions
     
     func getWeatherArray() -> [WeatherResponse]? {
         return dataService.getWeatherArray()
@@ -22,5 +29,10 @@ class CitySettingsService {
     func deleteCity(weatherID: Int) -> [WeatherResponse]? {
         let weather = dataService.deleteCity(weatherID: weatherID)
         return weather
+    }
+    
+    func getTempType() -> TemperatureSettings {
+        let temp = UserDefaults.standard.value(forKey: "savedTemperature")
+        return TemperatureSettings(rawValue: temp as! String) ?? .celsius
     }
 }

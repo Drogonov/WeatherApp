@@ -8,28 +8,18 @@
 
 import UIKit
 
-enum LoadingDataConfiguration: String {
-    case error
-    case success
-    
-    init() {
-        self = .success
-    }
-}
-
 protocol CityAddDisplayLogic: class {
     func displayData(viewModel: CityAdd.Model.ViewModel.ViewModelData)
 }
 
 class CityAddViewController: UIViewController, CityAddDisplayLogic {
     
+    // MARK: - Properties
+    
     var interactor: CityAddBusinessLogic?
-//    var router: (NSObjectProtocol & CityAddRoutingLogic)?
-    var router: CityAddRouter?
+    var router: (NSObjectProtocol & CityAddRoutingLogic)?
     
     let cityAddView = CityAddView()
-    
-    // MARK: Object lifecycle
     
     // MARK: Setup
     
@@ -65,25 +55,43 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
         configureUI()
     }
     
+    // MARK: Requests
+    
+    func getWeatherInCity(cityName: String) {
+        interactor?.makeRequest(request: CityAdd.Model.Request.RequestType.getWeatherInCity(cityName: cityName))
+    }
+    
+    // MARK: Display Data
+    
     func displayData(viewModel: CityAdd.Model.ViewModel.ViewModelData) {
         switch viewModel {
-        case .displayWeatherInCity(config: let config):
-            print("displayData")
-            print(config)
-            passLoadedWeather()
+        case .displayWeatherInCity(config: let config, cityName: let cityName):
+            switch config {
+            case .error:
+                showNotification(title: "Что-то пошло не так",
+                                 message: "Проверьте подключен ли интернет и правильно ли указан город \(cityName)",
+                                 defaultAction: true,
+                                 defaultActionText: "Ok",
+                                 completion: {})
+            case .success:
+                showNotification(title: "Город успешно добавлен \(cityName)",
+                                 defaultAction: true,
+                                 defaultActionText: "Ok", completion: {
+                                    self.passLoadedWeather()
+                                 })
+            }
         }
     }
     
-    // MARK: - Helper Functions
-    
-    func configureNavigationController() {
-        navigationController?.navigationBar.isHidden = true
-    }
+    // MARK: - ConfigureUI Functions
     
     func configureUI() {
         view.backgroundColor = UIColor.backgroundColorWhite()
         configureNavigationController()
-        
+        configureCityAddView()
+    }
+    
+    func configureCityAddView() {
         cityAddView.delegate = self
         
         view.addSubview(cityAddView)
@@ -92,6 +100,10 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
                            trailing: view.safeAreaLayoutGuide.rightAnchor,
                            height: 300)
     }
+    
+    func configureNavigationController() {
+        navigationController?.navigationBar.isHidden = true
+    }
 }
 
 // MARK: - CityAddViewDelegate
@@ -99,7 +111,7 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
 extension CityAddViewController: CityAddViewDelegate {
     func okButtonTapped(withButton button: UIButton) {
         guard let cityName = cityAddView.cityNameTextField.text else { return }
-        interactor?.makeRequest(request: CityAdd.Model.Request.RequestType.getWeatherInCity(cityName: cityName))
+        getWeatherInCity(cityName: cityName)
     }
     
     func rejectButtonTapped(withButton button: UIButton) {

@@ -35,7 +35,9 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
         let viewController        = self
         let interactor            = WeatherInteractor()
         let presenter             = WeatherPresenter()
-        let router                = WeatherRouter()
+        let router                = WeatherRouter(viewController: viewController,
+                                                  dataSource: interactor,
+                                                  dataDestination: interactor)
         viewController.interactor = interactor
         viewController.router     = router
         interactor.presenter      = presenter

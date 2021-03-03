@@ -7,6 +7,14 @@
 
 import Foundation
 
+protocol TemperatureType {
+    var tempType: TemperatureSettings { get set }
+}
+
+struct TempType: TemperatureType {
+    var tempType: TemperatureSettings
+}
+
 enum TemperatureSettings: String {
 
     case celsius = "C°"

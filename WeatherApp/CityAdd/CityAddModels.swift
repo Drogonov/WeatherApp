@@ -18,14 +18,25 @@ enum CityAdd {
         }
         struct Response {
             enum ResponseType {
-                case presentWeatherInCity(config: LoadingDataConfiguration)
+                case presentWeatherInCity(config: DataConfiguration, cityName: String)
             }
         }
         struct ViewModel {
             enum ViewModelData {
-                case displayWeatherInCity(config: LoadingDataConfiguration)
+                case displayWeatherInCity(config: DataConfiguration, cityName: String)
             }
         }
     }
     
+    enum DataConfiguration: String {
+        // Data configuration of loaded weather
+        case error
+        case success
+        
+        init() {
+            self = .success
+        }
+    }
 }
+
+

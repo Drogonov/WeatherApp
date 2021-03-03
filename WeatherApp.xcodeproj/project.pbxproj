@@ -46,6 +46,7 @@
 		847341BE25EA975F0091F716 /* CitySettingsSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847341BD25EA975F0091F716 /* CitySettingsSegmentedControl.swift */; };
 		847341C125EA977B0091F716 /* CitySettingsTableViewFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847341C025EA977B0091F716 /* CitySettingsTableViewFooter.swift */; };
 		847341C625EA9AF30091F716 /* CityAddView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847341C525EA9AF30091F716 /* CityAddView.swift */; };
+		848EA5A725EE6F3E004E51AA /* CityAddViewConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 848EA5A625EE6F3E004E51AA /* CityAddViewConstants.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -90,6 +91,7 @@
 		847341BD25EA975F0091F716 /* CitySettingsSegmentedControl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySettingsSegmentedControl.swift; sourceTree = "<group>"; };
 		847341C025EA977B0091F716 /* CitySettingsTableViewFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CitySettingsTableViewFooter.swift; sourceTree = "<group>"; };
 		847341C525EA9AF30091F716 /* CityAddView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityAddView.swift; sourceTree = "<group>"; };
+		848EA5A625EE6F3E004E51AA /* CityAddViewConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CityAddViewConstants.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -242,6 +244,7 @@
 			isa = PBXGroup;
 			children = (
 				847341C525EA9AF30091F716 /* CityAddView.swift */,
+				848EA5A625EE6F3E004E51AA /* CityAddViewConstants.swift */,
 			);
 			path = UIView;
 			sourceTree = "<group>";
@@ -342,6 +345,7 @@
 				847341B725EA8E700091F716 /* CityAddViewController.swift in Sources */,
 				8473419325EA59970091F716 /* CitySettingsRouter.swift in Sources */,
 				8473419225EA59970091F716 /* CitySettingsWorker.swift in Sources */,
+				848EA5A725EE6F3E004E51AA /* CityAddViewConstants.swift in Sources */,
 				8473419125EA59970091F716 /* CitySettingsPresenter.swift in Sources */,
 				847341BE25EA975F0091F716 /* CitySettingsSegmentedControl.swift in Sources */,
 				847341B625EA8E700091F716 /* CityAddModels.swift in Sources */,

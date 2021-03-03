@@ -9,18 +9,25 @@
 import UIKit
 
 class CityAddService {
-    var dataService: DataService
-    let userDefaults = UserDefaults.standard
+    
+    // MARK: - Properties
+    
+    private var dataService: DataService
+    
+    //MARK: - Init
     
     init() {
         self.dataService = DataService()
     }
     
-    func getWeatherInCity(cityName: String, completion: @escaping(LoadingDataConfiguration, WeatherResponse?) -> Void) {
+    //MARK: - Service Functions
+    
+    func getWeatherInCity(cityName: String, completion: @escaping(CityAdd.DataConfiguration, [WeatherResponse]?) -> Void) {
         dataService.fetchWeatherInCity(cityName: cityName) { (weather) in
-            guard let weatherInCity = weather else { return completion(.error, weather) }
+            guard let weatherInCity = weather else { return completion(.error, []) }
             self.dataService.saveWeatherInCity(weather: weatherInCity)
-            completion(.success, weather)
+            let weatherArray = self.dataService.getWeatherArray()
+            completion(.success, weatherArray)
         }
     }
 }

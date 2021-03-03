@@ -85,6 +85,8 @@ class DataService {
         guard let index = matchingIndex else { return nil }
         
         loadedWeather.remove(at: index)
+        localDataService.save(loadedWeather, key: key)
+        
         return loadedWeather
     }
     
