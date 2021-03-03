@@ -29,7 +29,8 @@ class CitySettingsPresenter: CitySettingsPresentationLogic {
         case .presentWeather(weatherInCities: let weatherInCities,
                              tempType: let tempType):
             
-            let citySettingsViewModel = configureCells(weatherInCities: weatherInCities, tempType: tempType)
+            let citySettingsViewModel = configureCells(weatherInCities: weatherInCities,
+                                                       tempType: tempType)
             
             viewController?.displayData(viewModel: CitySettings.Model.ViewModel.ViewModelData.displayWeather(citySettingsViewModel: citySettingsViewModel))
         }
@@ -37,11 +38,12 @@ class CitySettingsPresenter: CitySettingsPresentationLogic {
     
     // MARK: - Helper Functions
     
-        func configureCells(weatherInCities: [WeatherResponse], tempType: TemperatureSettings) -> CitySettingsViewModel {
-            
+    func configureCells(weatherInCities: [WeatherResponse?], tempType: TemperatureSettings) -> CitySettingsViewModel {
         var cells = [CitySettingsViewModel.Cell]()
+        let citySettingsViewModel = CitySettingsViewModel.init(cells: [])
         for i in 0..<weatherInCities.count {
-            let cell = cellViewModel(weather: weatherInCities[i], tempType: tempType)
+            guard let weatherInCity = weatherInCities[i] else { return citySettingsViewModel }
+            let cell = cellViewModel(weather: weatherInCity, tempType: tempType)
             cells.append(cell)
         }
         
@@ -60,7 +62,6 @@ class CitySettingsPresenter: CitySettingsPresentationLogic {
             temperature = String(format: "%.2f", temp - 273.15) + "°"
         case .fahrenheit:
             temperature = String(format: "%.2f", (9/5)*(temp - 273.15 + 32)) + " F°"
-            
         }
         
         return CitySettingsViewModel.Cell.init(id: id,

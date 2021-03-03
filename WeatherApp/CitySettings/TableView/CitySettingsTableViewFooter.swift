@@ -75,6 +75,10 @@ class CitySettingsTableViewFooter: UIView {
                           height: 40)
     }
     
+    func set(tempType: TemperatureSettings) {
+        self.tempType = tempType
+    }
+    
 }
 
 // MARK: - CitySettingsSegmentedControlDelegate

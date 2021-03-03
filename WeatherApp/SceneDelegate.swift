@@ -22,6 +22,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         
         if let temp = defaults.value(forKey: "savedTemperature") {
             tempType = TemperatureSettings(rawValue: temp as! String) ?? .celsius
+        } else {
+            defaults.setValue("C°", forKey: "savedTemperature")
+            defaults.setValue([], forKey: "savedWeather")
+            tempType = .celsius
         }
         
         guard let scene = scene as? UIWindowScene else { return }

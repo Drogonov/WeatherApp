@@ -31,9 +31,8 @@ class CitySettingsTableView: UITableView {
         register(CitySettingsTableViewCell.self,
                  forCellReuseIdentifier: CitySettingsTableViewCell.reuseId)
         rowHeight = UITableView.automaticDimension
-        estimatedRowHeight = 80
-        
-        sectionFooterHeight = 80
+        estimatedRowHeight = CitySettingsTableViewConstants.estimatedRowHeight
+        sectionFooterHeight = CitySettingsTableViewConstants.sectionFooterHeight
         backgroundColor = UIColor.backgroundColorWhite()
         contentInsetAdjustmentBehavior = .never
     }

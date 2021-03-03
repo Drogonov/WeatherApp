@@ -17,11 +17,7 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
     var interactor: WeatherBusinessLogic?
     var router: (NSObjectProtocol & WeatherRoutingLogic)?
         
-    var tempType: TemperatureSettings {
-        didSet {
-            print(tempType)
-        }
-    }
+    var tempType: TemperatureSettings
     
     private var weatherViewModel = WeatherViewModel.init(cells: [])
     
@@ -65,12 +61,10 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        print("viewDidLoad")
-        print(tempType)
-        view.backgroundColor = .orange
-        interactor?.makeRequest(request: Weather.Model.Request.RequestType.getWeatherData)
+        print("DEBUG: WeatherViewController tempType \(tempType)")
+        getLocalWeatherData(tempType: tempType)
+        getWeatherData(tempType: tempType)
         configureUI()
-        
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -80,20 +74,36 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
         }
     }
     
+    // MARK: - Requests
+    
+    func getWeatherData(tempType: TemperatureSettings) {
+        interactor?.makeRequest(request: Weather.Model.Request.RequestType.getWeatherData(tempType: tempType))
+    }
+    
+    func getLocalWeatherData(tempType: TemperatureSettings) {
+        interactor?.makeRequest(request: Weather.Model.Request.RequestType.getLocalWeatherData(tempType: tempType))
+    }
+    
     // MARK: - Display Data
     
     func displayData(viewModel: Weather.Model.ViewModel.ViewModelData) {
         switch viewModel {
         case .displayWeather(weatherViewModel: let weatherViewModel):
             self.weatherViewModel = weatherViewModel
+            print("DEBUG: WeatherViewController weatherViewModel \(weatherViewModel)")
             configureUI()
-            print("displayWeather")
+        case .displayChangedTempType(tempType: let tempType):
+            self.tempType = tempType
+            print("DEBUG: WeatherViewController tempType from display data\(tempType)")
+            getLocalWeatherData(tempType: tempType)
+            configureUI()
         }
     }
     
     // MARK: - ConfigureUI Functions
     
     func configureUI() {
+        view.backgroundColor = UIColor.backgroundColorWhite()
         configureNavigationController()
         configureCollectionView()
         configurePageView()

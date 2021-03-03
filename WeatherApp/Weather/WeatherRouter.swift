@@ -25,7 +25,7 @@ protocol WeatherRouterDataDestination: class {
     //tempType from CitySettingsViewController
     var tempType: TemperatureSettings? { get set }
     //weather after changes from CitySettingsInteractor
-    var weather: WeatherResponse? { get set }
+    var weather: [WeatherResponse]? { get set }
 }
 
 class WeatherRouter: NSObject, WeatherRoutingLogic {
@@ -50,6 +50,7 @@ class WeatherRouter: NSObject, WeatherRoutingLogic {
     
     func showCitySettingsVC(tempType: TemperatureSettings) {
         if let navVC = viewController?.navigationController {
+            print("DEBUG: CitySettingsViewController shown from WeatherViewController \(tempType)")
             let citySettingsVC = CitySettingsViewController(tempType: tempType)
             navVC.pushViewController(citySettingsVC, animated: true)
         }

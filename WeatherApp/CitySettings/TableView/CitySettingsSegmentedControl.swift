@@ -80,6 +80,7 @@ extension CitySettingsSegmentedControl {
     private func updateView() {
         createButton()
         configStackView()
+        setIndex(index: selectedIndex)
     }
     
     private func configStackView() {

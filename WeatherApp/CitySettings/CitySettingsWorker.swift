@@ -22,6 +22,10 @@ class CitySettingsService {
     
     //MARK: - Service Functions
     
+    func fetchWeatherInCities(weatherToFetch: [WeatherResponse], completion: @escaping([WeatherResponse?]) -> Void) {
+        dataService.fetchWeatherInCities(weatherToFetch: weatherToFetch, completion: completion)
+    }
+    
     func getWeatherArray() -> [WeatherResponse]? {
         return dataService.getWeatherArray()
     }
@@ -32,7 +36,10 @@ class CitySettingsService {
     }
     
     func getTempType() -> TemperatureSettings {
-        let temp = UserDefaults.standard.value(forKey: "savedTemperature")
-        return TemperatureSettings(rawValue: temp as! String) ?? .celsius
+        return dataService.getTempType()
+    }
+    
+    func saveTempType(temp : TemperatureSettings) {
+        dataService.saveTempType(temp: temp)
     }
 }

@@ -42,7 +42,6 @@ class WeatherPageView: UIPageControl {
     }
         
     func set(numberOfPages: Int) {
-        print(numberOfPages)
         if numberOfPages == 0 {
             self.numberOfPages = 1
         } else {

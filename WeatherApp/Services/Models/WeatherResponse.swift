@@ -7,7 +7,9 @@
 
 import Foundation
 
-struct WeatherResponse: Codable {
+struct WeatherResponse: Codable, Comparable {
+
+    
     let id: Int
     let name: String
     let main: Main
@@ -20,4 +22,13 @@ struct WeatherResponse: Codable {
     struct Weather: Codable {
         let description: String
     }
+    
+    static func < (lhs: WeatherResponse, rhs: WeatherResponse) -> Bool {
+        lhs.id < rhs.id
+    }
+    
+    static func == (lhs: WeatherResponse, rhs: WeatherResponse) -> Bool {
+        lhs.id == rhs.id
+    }
+    
 }

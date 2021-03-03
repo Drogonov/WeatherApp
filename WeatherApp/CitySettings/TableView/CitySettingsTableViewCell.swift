@@ -15,7 +15,7 @@ class CitySettingsTableViewCell: UITableViewCell {
     
     private let cityLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 36)
+        label.font = CitySettingsTableViewConstants.cityLabelFont
         label.textAlignment = .left
         label.text = ""
         label.numberOfLines = 0
@@ -25,7 +25,7 @@ class CitySettingsTableViewCell: UITableViewCell {
     
     private let tempLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 42)
+        label.font = CitySettingsTableViewConstants.tempLabelFont
         label.textAlignment = .right
         label.text = ""
         label.numberOfLines = 0
@@ -52,7 +52,7 @@ class CitySettingsTableViewCell: UITableViewCell {
         backgroundColor = UIColor.backgroundColorGray()
         
         layer.borderColor = UIColor.borderColor().cgColor
-        layer.borderWidth = 1
+        layer.borderWidth = CitySettingsTableViewConstants.borderWidth
         layer.masksToBounds = false
         
         contentView.addSubview(cityLabel)
@@ -60,19 +60,19 @@ class CitySettingsTableViewCell: UITableViewCell {
                          leading: contentView.leftAnchor,
                          bottom: contentView.bottomAnchor,
                          trailing: contentView.rightAnchor,
-                         paddingTop: 8,
-                         paddingLeading: 8,
-                         paddingBottom: 8,
-                         paddingTrailing: tempLabel.frame.width + 16)
+                         paddingTop: CitySettingsTableViewConstants.cityLabelPadding,
+                         paddingLeading: CitySettingsTableViewConstants.cityLabelPadding,
+                         paddingBottom: CitySettingsTableViewConstants.cityLabelPadding,
+                         paddingTrailing: tempLabel.frame.width + CitySettingsTableViewConstants.cityLabelPadding * 2)
 
 
         contentView.addSubview(tempLabel)
         tempLabel.anchor(top: contentView.topAnchor,
                          bottom: contentView.bottomAnchor,
                          trailing: contentView.rightAnchor,
-                         paddingTop: 8,
-                         paddingBottom: 8,
-                         paddingTrailing: 8)
+                         paddingTop: CitySettingsTableViewConstants.tempLabelPadding,
+                         paddingBottom: CitySettingsTableViewConstants.tempLabelPadding,
+                         paddingTrailing: CitySettingsTableViewConstants.tempLabelPadding)
         
     }
         

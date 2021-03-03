@@ -22,20 +22,28 @@ protocol WeatherSettingsDataSource {
 
 protocol WeatherDataDestination {
     var tempType: TemperatureSettings? { get set }
-    var weather: WeatherResponse? { get set }
+    var weather: [WeatherResponse]? { get set }
 }
 
 // MARK: - WeatherInteractor
 
-class WeatherInteractor: WeatherBusinessLogic, WeatherSettingsDataSource, WeatherDataDestination{
+class WeatherInteractor: WeatherBusinessLogic, WeatherSettingsDataSource, WeatherDataDestination {
 
     // MARK: - Properties
     
     var presenter: WeatherPresentationLogic?
     var service: WeatherService?
-    var weather: WeatherResponse?
-    var tempType: TemperatureSettings?
-    
+    var weather: [WeatherResponse]? {
+        didSet {
+            print("did set weather in WeatherInteractor")
+            getLocalWeatherData(tempType: getTempType())
+        }
+    }
+    var tempType: TemperatureSettings? {
+        didSet {
+            tempTypeWasChanged(tempType: tempType ?? .celsius)
+        }
+    }
     
     // MARK: - Request
   
@@ -45,13 +53,35 @@ class WeatherInteractor: WeatherBusinessLogic, WeatherSettingsDataSource, Weathe
         }
 
         switch request {
-        case .getWeatherData:
-            let weatherInCities = service?.getWeatherArray()
-            guard let weather = weatherInCities else { return }
-            service?.fetchWeatherInCities(weatherToFetch: weather, completion: { [weak self] (responce) in
-                self?.presenter?.presentData(response: Weather.Model.Response.ResponseType.presentWeather(weatherInCities: responce))
-            })
+        case .getWeatherData(tempType: let tempType):
+            getWeatherData(tempType: tempType)
+        case .getLocalWeatherData(tempType: let tempType):
+            getLocalWeatherData(tempType: tempType)
         }
+    }
+    
+    // MARK: - Helper Functions
+    
+    func getWeatherData(tempType: TemperatureSettings) {
+        let weatherInCities = service?.getWeatherArray()
+        guard let weather = weatherInCities else { return }
+        service?.fetchWeatherInCities(weatherToFetch: weather, completion: { [weak self] (responce) in
+            self?.presenter?.presentData(response: Weather.Model.Response.ResponseType.presentWeather(weatherInCities: responce, tempType: tempType))
+        })
+    }
+    
+    func getLocalWeatherData(tempType: TemperatureSettings) {
+        let weatherInCities = service?.getWeatherArray()
+        guard let weather = weatherInCities else { return }
+        presenter?.presentData(response: Weather.Model.Response.ResponseType.presentWeather(weatherInCities: weather, tempType: tempType))
+    }
+    
+    func tempTypeWasChanged(tempType: TemperatureSettings) {
+        presenter?.presentData(response: Weather.Model.Response.ResponseType.tempTypeWasChanged(tempType: tempType))
+    }
+    
+    func getTempType() -> TemperatureSettings {
+        return service?.getTempType() ?? .celsius
     }
 }
 

@@ -13,19 +13,22 @@ enum Weather {
     enum Model {
         struct Request {
             enum RequestType {
-                case getWeatherData
+                case getWeatherData(tempType: TemperatureSettings)
+                case getLocalWeatherData(tempType: TemperatureSettings)
             }
         }
         
         struct Response {
             enum ResponseType {
-                case presentWeather(weatherInCities: [WeatherResponse?])
+                case presentWeather(weatherInCities: [WeatherResponse?], tempType: TemperatureSettings)
+                case tempTypeWasChanged(tempType: TemperatureSettings)
             }
         }
         
         struct ViewModel {
             enum ViewModelData {
                 case displayWeather(weatherViewModel: WeatherViewModel)
+                case displayChangedTempType(tempType: TemperatureSettings)
             }
         }
     }

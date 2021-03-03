@@ -113,6 +113,7 @@ class CityAddView: UIView {
         let stackView = UIStackView(arrangedSubviews: [okButton, rejectButton])
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
+        stackView.spacing = CityAddViewConstants.stackViewSpasing
         
         addSubview(stackView)
         stackView.anchor(top: separator.bottomAnchor,

@@ -22,7 +22,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
     private let cityLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 42)
+        label.font = WeatherCollectionViewConstants.cityLabelFont
         label.textAlignment = .center
         label.text = ""
         label.numberOfLines = 0
@@ -32,7 +32,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
     private let weatherLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 24)
+        label.font = WeatherCollectionViewConstants.weatherLabelFont
         label.textAlignment = .center
         label.text = ""
         label.numberOfLines = 0
@@ -42,7 +42,7 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
     private let tempLabel: UILabel = {
         let label = UILabel()
-        label.font = UIFont.systemFont(ofSize: 42)
+        label.font = WeatherCollectionViewConstants.tempLabelFont
         label.textAlignment = .center
         label.text = ""
         label.numberOfLines = 0
@@ -69,25 +69,25 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         cityLabel.anchor(top: self.topAnchor,
                          leading: self.leftAnchor,
                          trailing: self.rightAnchor,
-                         paddingTop: 32,
-                         paddingLeading: 16,
-                         paddingTrailing: 16)
+                         paddingTop: WeatherCollectionViewConstants.cityLabelPadding * 2,
+                         paddingLeading: WeatherCollectionViewConstants.cityLabelPadding ,
+                         paddingTrailing: WeatherCollectionViewConstants.cityLabelPadding)
         
         addSubview(weatherLabel)
         weatherLabel.anchor(top: cityLabel.bottomAnchor,
                          leading: self.leftAnchor,
                          trailing: self.rightAnchor,
-                         paddingTop: 16,
-                         paddingLeading: 16,
-                         paddingTrailing: 16)
+                         paddingTop: WeatherCollectionViewConstants.weatherLabelPadding,
+                         paddingLeading: WeatherCollectionViewConstants.weatherLabelPadding,
+                         paddingTrailing: WeatherCollectionViewConstants.weatherLabelPadding)
 
         addSubview(tempLabel)
         tempLabel.anchor(top: weatherLabel.bottomAnchor,
                          leading: self.leftAnchor,
                          trailing: self.rightAnchor,
-                         paddingTop: 24,
-                         paddingLeading: 16,
-                         paddingTrailing: 16)
+                         paddingTop: WeatherCollectionViewConstants.tempLabelPadding * 2,
+                         paddingLeading: WeatherCollectionViewConstants.tempLabelPadding,
+                         paddingTrailing: WeatherCollectionViewConstants.tempLabelPadding)
     }
     
     func set(viewModel: WeatherCellViewModel) {

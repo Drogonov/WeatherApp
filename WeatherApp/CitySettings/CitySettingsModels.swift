@@ -13,13 +13,15 @@ enum CitySettings {
     enum Model {
         struct Request {
             enum RequestType {
+                case getWeatherData(tempType: TemperatureSettings)
                 case getLocalWeatherData(tempType: TemperatureSettings)
                 case deleteCity(weatherID: Int, tempType: TemperatureSettings)
+                case changeTempType(tempType: TemperatureSettings)
             }
         }
         struct Response {
             enum ResponseType {
-                case presentWeather(weatherInCities: [WeatherResponse], tempType: TemperatureSettings)
+                case presentWeather(weatherInCities: [WeatherResponse?], tempType: TemperatureSettings)
             }
         }
         struct ViewModel {

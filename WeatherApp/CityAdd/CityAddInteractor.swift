@@ -17,7 +17,7 @@ protocol CityAddBusinessLogic {
 // MARK: - CityAddRouting Protocols
 
 protocol CityAddDataSource {
-    var loadedWeather: WeatherResponse? { get }
+    var loadedWeather: [WeatherResponse]? { get }
 }
 
 protocol CityAddDataDestination {
@@ -32,7 +32,7 @@ class CityAddInteractor: CityAddBusinessLogic, CityAddDataSource, CityAddDataDes
         
     var presenter: CityAddPresentationLogic?
     var service: CityAddService?
-    var loadedWeather: WeatherResponse?
+    var loadedWeather: [WeatherResponse]?
     
     // MARK: - Request
     

@@ -10,7 +10,7 @@ import UIKit
 
 class WeatherService {
     
-    var dataService: DataService
+    private var dataService: DataService
     
     init() {
         self.dataService = DataService()
@@ -22,5 +22,9 @@ class WeatherService {
     
     func getWeatherArray() -> [WeatherResponse]? {
         return dataService.getWeatherArray()
+    }
+    
+    func getTempType() -> TemperatureSettings {
+        return dataService.getTempType()
     }
 }

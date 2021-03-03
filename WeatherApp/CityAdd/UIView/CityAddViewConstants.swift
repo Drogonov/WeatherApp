@@ -25,6 +25,7 @@ struct CityAddViewConstants {
     static let buttonFont = UIFont.systemFont(ofSize: 14)
     
     static let stackViewPadding: CGFloat = 16
-    static let stackViewSize = CGSize(width: 300, height: 50)
+    static let stackViewSize = CGSize(width: 400, height: 50)
+    static let stackViewSpasing: CGFloat = 50
     
 }
