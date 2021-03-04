@@ -18,12 +18,12 @@ class CitySettingsTableViewFooter: UIView {
     
     weak var delegate: CitySettingsTableViewFooterDelegate?
     
-    let celsiusButtonTitle = TemperatureSettingsValues.celsiusRawValue
-    let fahrenheitButtonTitle = TemperatureSettingsValues.fahrenheitRawValue
+    private let celsiusButtonTitle = TemperatureSettingsValues.celsiusRawValue
+    private let fahrenheitButtonTitle = TemperatureSettingsValues.fahrenheitRawValue
     
-    var tempType: TemperatureSettings
+    private var tempType: TemperatureSettings
     
-    let plusButton: UIButton = {
+    private let plusButton: UIButton = {
         let button = UIButton(type: .system)
         button.setImage(UIImage(systemName: "plus.circle"), for: .normal)
         button.tintColor = .systemBlue
@@ -31,8 +31,8 @@ class CitySettingsTableViewFooter: UIView {
         return button
     }()
     
-    let segmentControlFrame = CGRect(x: 0, y: 0, width: 120, height: 80)
-    lazy var segmentControl = CitySettingsSegmentedControl(frame: segmentControlFrame, buttonTitle: [celsiusButtonTitle, fahrenheitButtonTitle], tempType: tempType)
+    private let segmentControlFrame = CGRect(x: 0, y: 0, width: 120, height: 80)
+    private lazy var segmentControl = CitySettingsSegmentedControl(frame: segmentControlFrame, buttonTitle: [celsiusButtonTitle, fahrenheitButtonTitle], tempType: tempType)
         
     
     // MARK: - Init
@@ -56,7 +56,7 @@ class CitySettingsTableViewFooter: UIView {
     
     // MARK: - Helper Functions
     
-    func configureUI() {
+    private func configureUI() {
         segmentControl.delegate = self
         
         addSubview(segmentControl)
@@ -87,5 +87,4 @@ extension CitySettingsTableViewFooter: CitySettingsSegmentedControlDelegate {
     func change(to index: Int, withRawValue: String) {
         delegate?.change(to: index, withRawValue: withRawValue)
     }
-    
 }

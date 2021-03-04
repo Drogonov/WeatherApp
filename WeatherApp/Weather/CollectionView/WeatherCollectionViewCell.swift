@@ -65,12 +65,11 @@ class WeatherCollectionViewCell: UICollectionViewCell {
     
     private func configureUI() {
         addSubview(cityLabel)
-
         cityLabel.anchor(top: self.topAnchor,
                          leading: self.leftAnchor,
                          trailing: self.rightAnchor,
                          paddingTop: WeatherCollectionViewConstants.cityLabelPadding * 2,
-                         paddingLeading: WeatherCollectionViewConstants.cityLabelPadding ,
+                         paddingLeading: WeatherCollectionViewConstants.cityLabelPadding,
                          paddingTrailing: WeatherCollectionViewConstants.cityLabelPadding)
         
         addSubview(weatherLabel)
@@ -101,4 +100,15 @@ class WeatherCollectionViewCell: UICollectionViewCell {
         weatherLabel.text = ""
         tempLabel.text = ""
     }
+    
+
+
+    
+//    func configureEmptyCellSize() -> CGSize {
+//        let text = "ДОБАВЬТЕ ГОРОД"
+//        let cityNameWidth: CGFloat = UIScreen.main.bounds.width
+//        let cityNameHeight: CGFloat = 400
+//        
+//        return CGSize(width: cityNameWidth, height: cityNameHeight)
+//    }
 }

@@ -18,8 +18,8 @@ class CitySettingsSegmentedControl: UIView {
     private var buttons: [UIButton]!
     private var tempType: TemperatureSettings!
     
-    var textColor: UIColor = UIColor.temperatureButtonOff()
-    var selectorTextColor: UIColor = UIColor.temperatureButtonOn()
+    private var textColor: UIColor = UIColor.temperatureButtonOff()
+    private var selectorTextColor: UIColor = UIColor.temperatureButtonOn()
     
     weak var delegate: CitySettingsSegmentedControlDelegate?
     
@@ -47,12 +47,12 @@ class CitySettingsSegmentedControl: UIView {
         updateView()
     }
     
-    func setButtonTitles(buttonTitles:[String]) {
+    private func setButtonTitles(buttonTitles:[String]) {
         self.buttonTitles = buttonTitles
         self.updateView()
     }
     
-    func setIndex(index: Int) {
+    private func setIndex(index: Int) {
         buttons.forEach({ $0.setTitleColor(textColor, for: .normal) })
         let button = buttons[index]
         selectedIndex = index
@@ -109,5 +109,4 @@ extension CitySettingsSegmentedControl {
         }
         buttons[0].setTitleColor(selectorTextColor, for: .normal)
     }
-    
 }

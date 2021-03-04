@@ -8,8 +8,8 @@
 import UIKit
 
 protocol CityAddViewDelegate: class {
-    func okButtonTapped(withButton button: UIButton)
-    func rejectButtonTapped(withButton button: UIButton)
+    func okButtonTapped(withCityName cityName: String)
+    func rejectButtonTapped()
 }
 
 class CityAddView: UIView {
@@ -28,7 +28,7 @@ class CityAddView: UIView {
         return label
     }()
     
-    let cityNameTextField: UITextField = {
+    private let cityNameTextField: UITextField = {
         let tf = UITextField()
         tf.borderStyle = .none
         tf.clearButtonMode = .always
@@ -39,13 +39,13 @@ class CityAddView: UIView {
         return tf
     }()
     
-    let separator: UIView = {
+    private let separator: UIView = {
         let sr = UIView()
         sr.backgroundColor = UIColor.borderColor()
         return sr
     }()
     
-    let okButton: UIButton = {
+    private let okButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Ок", for: .normal)
         button.titleLabel?.font = CityAddViewConstants.buttonFont
@@ -54,7 +54,7 @@ class CityAddView: UIView {
         return button
     }()
     
-    let rejectButton: UIButton = {
+    private let rejectButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("Отмена", for: .normal)
         button.titleLabel?.font = CityAddViewConstants.buttonFont
@@ -78,16 +78,17 @@ class CityAddView: UIView {
     // MARK: - Selectors
     
     @objc func okButtonTapped() {
-        delegate?.okButtonTapped(withButton: okButton)
+        guard let cityName = cityNameTextField.text?.trimmingCharacters(in: .whitespaces) else { return }
+        delegate?.okButtonTapped(withCityName: cityName)
     }
     
     @objc func rejectButtonTapped() {
-        delegate?.rejectButtonTapped(withButton: rejectButton)
+        delegate?.rejectButtonTapped()
     }
     
     // MARK: - ConfigureUI Functions
     
-    func configureUI() {
+    private func configureUI() {
                 
         addSubview(titleLabel)
         titleLabel.anchor(top: self.topAnchor,

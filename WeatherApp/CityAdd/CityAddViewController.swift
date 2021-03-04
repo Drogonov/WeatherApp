@@ -19,7 +19,7 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
     var interactor: CityAddBusinessLogic?
     var router: (NSObjectProtocol & CityAddRoutingLogic)?
     
-    let cityAddView = CityAddView()
+    private let cityAddView = CityAddView()
     
     // MARK: Setup
     
@@ -39,11 +39,11 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
     
     // MARK: Routing
     
-    func showCitySettingsVC() {
+    private func showCitySettingsVC() {
         router?.showCitySettingsVC()
     }
     
-    func passLoadedWeather() {
+    private func passLoadedWeather() {
         router?.passLoadedWeather()
     }
     
@@ -57,7 +57,7 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
     
     // MARK: Requests
     
-    func getWeatherInCity(cityName: String) {
+    private func getWeatherInCity(cityName: String) {
         interactor?.makeRequest(request: CityAdd.Model.Request.RequestType.getWeatherInCity(cityName: cityName))
     }
     
@@ -94,14 +94,14 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
     
     // MARK: - ConfigureUI Functions
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = UIColor.backgroundColorWhite()
         configureNavigationController()
         configureCityAddView()
         configureKeyboard()
     }
     
-    func configureCityAddView() {
+    private func configureCityAddView() {
         cityAddView.delegate = self
         
         view.addSubview(cityAddView)
@@ -111,11 +111,11 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
                            height: 300)
     }
     
-    func configureNavigationController() {
+    private func configureNavigationController() {
         navigationController?.navigationBar.isHidden = true
     }
     
-    func configureKeyboard() {
+    private func configureKeyboard() {
         self.hideKeyboardWhenTappedAround()
         NotificationCenter.default.addObserver(self, selector: #selector(Keyboard), name: UIResponder.keyboardWillHideNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(Keyboard), name: UIResponder.keyboardWillShowNotification, object: nil)
@@ -125,12 +125,11 @@ class CityAddViewController: UIViewController, CityAddDisplayLogic {
 // MARK: - CityAddViewDelegate
 
 extension CityAddViewController: CityAddViewDelegate {
-    func okButtonTapped(withButton button: UIButton) {
-        guard let cityName = cityAddView.cityNameTextField.text?.trimmingCharacters(in: .whitespaces) else { return }
+    func okButtonTapped(withCityName cityName: String) {
         getWeatherInCity(cityName: cityName)
     }
     
-    func rejectButtonTapped(withButton button: UIButton) {
+    func rejectButtonTapped() {
         showCitySettingsVC()
     }
 }

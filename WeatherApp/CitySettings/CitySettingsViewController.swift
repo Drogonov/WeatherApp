@@ -18,16 +18,10 @@ class CitySettingsViewController: UIViewController, CitySettingsDisplayLogic {
     
     var interactor: CitySettingsBusinessLogic?
     var router: (NSObjectProtocol & CitySettingsRoutingLogic)?
-    
-    var tempType: TemperatureSettings
-    
+
+    private var tempType: TemperatureSettings
     private var citySettingsViewModel = CitySettingsViewModel.init(cells: [])
-//    private var citySettingsTableView = CitySettingsTableView()
-//    private var refreshControl = UIRefreshControl()
-//
-//    private lazy var footerView = CitySettingsTableViewFooter(frame: .zero, tempType: tempType)
-    
-    private lazy var settingsTableView = SettingsTableView(frame: .zero, tempType: tempType)
+    private lazy var settingsTableView = CitySettingsTableView(frame: .zero, tempType: tempType)
     
     // MARK: Setup
     
@@ -47,19 +41,19 @@ class CitySettingsViewController: UIViewController, CitySettingsDisplayLogic {
     
     // MARK: Routing
     
-    func showWeatherVC() {
+    private func showWeatherVC() {
         router?.showWeatherVC()
     }
     
-    func showCityAddVC() {
+    private func showCityAddVC() {
         router?.showCityAddVC()
     }
     
-    func passChangedWeather() {
+    private func passChangedWeather() {
         router?.passChangedWeather()
     }
     
-    func passChangedTempType() {
+    private func passChangedTempType() {
         router?.passChangedTempType()
     }
     
@@ -84,20 +78,20 @@ class CitySettingsViewController: UIViewController, CitySettingsDisplayLogic {
     
     // MARK: - Requests
     
-    func getLocalWeatherData(tempType: TemperatureSettings) {
+    private func getLocalWeatherData(tempType: TemperatureSettings) {
         interactor?.makeRequest(request: CitySettings.Model.Request.RequestType.getLocalWeatherData(tempType: tempType))
     }
     
-    func deleteCityRequest(weatherID: Int, tempType: TemperatureSettings) {
+    private func deleteCityRequest(weatherID: Int, tempType: TemperatureSettings) {
         interactor?.makeRequest(request: CitySettings.Model.Request.RequestType.deleteCity(weatherID: weatherID,
                                                                                                 tempType: tempType))
     }
     
-    func changeTempTypeRequest(tempType: TemperatureSettings) {
+    private func changeTempTypeRequest(tempType: TemperatureSettings) {
         interactor?.makeRequest(request: CitySettings.Model.Request.RequestType.changeTempType(tempType: tempType))
     }
     
-    func getWeatherData(tempType: TemperatureSettings) {
+    private func getWeatherData(tempType: TemperatureSettings) {
         interactor?.makeRequest(request: CitySettings.Model.Request.RequestType.getWeatherData(tempType: tempType))
     }
     
@@ -108,7 +102,6 @@ class CitySettingsViewController: UIViewController, CitySettingsDisplayLogic {
         case .displayWeather(citySettingsViewModel: let citySettingsViewModel):
             self.citySettingsViewModel = citySettingsViewModel
             print("DEBUG: CitySettingsViewController citySettingsViewModel \(citySettingsViewModel)")
-//            refreshControl.endRefreshing()
             configureUI()
         }
     }
@@ -121,46 +114,20 @@ class CitySettingsViewController: UIViewController, CitySettingsDisplayLogic {
         }
     }
     
-//    @objc func refresh(_ sender: AnyObject) {
-//        getWeatherData(tempType: tempType)
-//    }
-    
     // MARK: - ConfigureUI Functions
     
-    func configureUI() {
+    private func configureUI() {
         view.backgroundColor = UIColor.backgroundColorWhite()
         configureNavigationController()
         configureSwipeGesture()
         configureTableView()
     }
     
-    func configureNavigationController() {
+    private func configureNavigationController() {
         navigationController?.navigationBar.isHidden = true
     }
     
-//    func configureTableView() {
-//        citySettingsTableView.delegate = self
-//
-//        view.addSubview(citySettingsTableView)
-//        citySettingsTableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
-//                                     leading: view.safeAreaLayoutGuide.leftAnchor,
-//                                     bottom: view.safeAreaLayoutGuide.bottomAnchor,
-//                                     trailing: view.safeAreaLayoutGuide.rightAnchor)
-//        citySettingsTableView.set(weather: citySettingsViewModel.cells)
-//
-//        refreshControl.addTarget(self, action: #selector(self.refresh(_:)), for: .valueChanged)
-//        citySettingsTableView.addSubview(refreshControl)
-//        configureFooterView(tempType: tempType)
-//
-//        citySettingsTableView.reloadData()
-//    }
-//
-//    func configureFooterView(tempType: TemperatureSettings) {
-//        footerView.delegate = self
-//        footerView.set(tempType: tempType)
-//    }
-    
-    func configureTableView() {
+    private func configureTableView() {
         settingsTableView.delegate = self
         view.addSubview(settingsTableView)
         settingsTableView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
@@ -170,61 +137,32 @@ class CitySettingsViewController: UIViewController, CitySettingsDisplayLogic {
         settingsTableView.set(viewModel: citySettingsViewModel)
     }
     
-    func configureSwipeGesture() {
+    private func configureSwipeGesture() {
         let swipeRight = UISwipeGestureRecognizer(target: self, action: #selector(handleGesture))
         swipeRight.direction = .right
         self.view.addGestureRecognizer(swipeRight)
     }
 }
 
-// MARK: - UITableViewDelegate
+// MARK: - CitySettingsTableViewDelegate
 
-//extension CitySettingsViewController: UITableViewDelegate {
-//    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-//        let deleteAction = UIContextualAction(style: .destructive, title: nil) { (_, _, completion) in
-//            let weatherID = self.citySettingsViewModel.cells[indexPath.row].id
-//            print("DEBUG: CitySettingsViewController weatherID to delete \(weatherID)")
-//            self.deleteCity(weatherID: weatherID, tempType: self.tempType)
-//            self.passChangedWeather()
-//        }
-//        deleteAction.title = "Удалить"
-//        deleteAction.backgroundColor = .systemRed
-//        let configuration = UISwipeActionsConfiguration(actions: [deleteAction])
-//        return configuration
-//    }
-//
-//    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
-//        return footerView
-//    }
-//}
-
-// MARK: - CitySettingsTableViewFooterDelegate
-
-//extension CitySettingsViewController: CitySettingsTableViewFooterDelegate {
-//    func plusButtonTapped(withButton button: UIButton) {
-//        showCityAddVC()
-//    }
-//
-//    func change(to index: Int, withRawValue: String) {
-//        self.tempType = TemperatureSettings(rawValue: withRawValue) ?? .celsius
-//        print("DEBUG: CitySettingsViewController tempType changed to: \(tempType)")
-//        self.footerView.set(tempType: tempType)
-//        changeTempType(tempType: tempType)
-//        self.passChangedTempType()
-//    }
-//}
-
-extension CitySettingsViewController: SettingsTableViewDelegate {
-    func deleteCity(weatherID: Int, tempType: TemperatureSettings) {
-        deleteCityRequest(weatherID: weatherID, tempType: tempType)
+extension CitySettingsViewController: CitySettingsTableViewDelegate {
+    func refresh(_ sender: AnyObject) {
+        getWeatherData(tempType: tempType)
     }
     
-    func plusButtonTapped() {
-        showCityAddVC()
+    
+    func deleteCity(weatherID: Int, tempType: TemperatureSettings) {
+        deleteCityRequest(weatherID: weatherID, tempType: tempType)
+        self.passChangedWeather()
     }
     
     func changeTempType(changedTempType: TemperatureSettings) {
         changeTempTypeRequest(tempType: changedTempType)
         self.passChangedTempType()
+    }
+    
+    func plusButtonTapped() {
+        showCityAddVC()
     }
 }

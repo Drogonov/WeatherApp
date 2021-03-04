@@ -20,7 +20,7 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
     var tempType: TemperatureSettings
     
     private var weatherViewModel = WeatherViewModel.init(cells: [])
-    
+
     private var weatherCollectionView = WeatherCollectionView()
     private var weatherPageView = WeatherPageView()
     private var weatherPageViewButton = WeatherPageViewButton()
@@ -61,10 +61,9 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
     override func viewDidLoad() {
         super.viewDidLoad()
         setup()
-        print("DEBUG: WeatherViewController tempType \(tempType)")
         getLocalWeatherData(tempType: tempType)
         getWeatherData(tempType: tempType)
-        configureUI()
+        print("DEBUG: WeatherViewController tempType \(tempType)")
     }
     
     override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
@@ -116,15 +115,14 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
     
     func configureCollectionView() {
         weatherCollectionView.delegate = self
-        
+
         view.addSubview(weatherCollectionView)
         weatherCollectionView.anchor(top: view.safeAreaLayoutGuide.topAnchor,
                                      leading: view.safeAreaLayoutGuide.leftAnchor,
                                      bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                      trailing: view.safeAreaLayoutGuide.rightAnchor,
-                                     paddingBottom: weatherPageView.pageControlHeight - 2)
+                                     paddingBottom: WeatherPageView.pageControlHeight - 2)
         weatherCollectionView.set(weather: weatherViewModel.cells)
-        weatherCollectionView.reloadData()
     }
     
     func configurePageView() {
@@ -134,7 +132,7 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
         weatherPageView.anchor(leading: view.safeAreaLayoutGuide.leftAnchor,
                                bottom: view.safeAreaLayoutGuide.bottomAnchor,
                                trailing: view.safeAreaLayoutGuide.rightAnchor,
-                               height: weatherPageView.pageControlHeight)
+                               height: WeatherPageView.pageControlHeight)
         weatherPageView.set(numberOfPages: weatherViewModel.cells.count)
     }
     
@@ -150,25 +148,20 @@ class WeatherViewController: UIViewController, WeatherDisplayLogic {
     }
 }
 
+
+// MARK: - WeatherCollectionViewDelegate
+
+extension WeatherViewController: WeatherCollectionViewDelegate {
+    func scrollToPage(page: Int) {
+        weatherPageView.setCurrentPage(page: page)
+    }
+}
+
 // MARK: - WeatherPageViewDelegate
 
 extension WeatherViewController: WeatherPageViewDelegate {
     func pageChanged(sender: AnyObject, currentPage: Int) {
-        let x = CGFloat(currentPage) * weatherCollectionView.frame.size.width
-        weatherCollectionView.setContentOffset(CGPoint(x: x, y: 0), animated: true)
-    }
-}
-
-// MARK: - UICollectionViewDelegate, UICollectionViewDelegateFlowLayout
-
-extension WeatherViewController: UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        let pageNumber = round(weatherCollectionView.contentOffset.x / weatherCollectionView.frame.size.width)
-        weatherPageView.currentPage = Int(pageNumber)
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: collectionView.bounds.width, height: collectionView.bounds.height)
+        weatherCollectionView.setContentOffset(page: currentPage)
     }
 }
 

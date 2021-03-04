@@ -63,17 +63,16 @@ class CitySettingsTableViewCell: UITableViewCell {
                          paddingTop: CitySettingsTableViewConstants.cityLabelPadding,
                          paddingLeading: CitySettingsTableViewConstants.cityLabelPadding,
                          paddingBottom: CitySettingsTableViewConstants.cityLabelPadding,
-                         paddingTrailing: tempLabel.frame.width + CitySettingsTableViewConstants.cityLabelPadding * 2)
-
-
+                         paddingTrailing: CitySettingsTableViewConstants.tempLabelWidth + CitySettingsTableViewConstants.cityLabelPadding * 2)
+        
         contentView.addSubview(tempLabel)
         tempLabel.anchor(top: contentView.topAnchor,
                          bottom: contentView.bottomAnchor,
                          trailing: contentView.rightAnchor,
                          paddingTop: CitySettingsTableViewConstants.tempLabelPadding,
                          paddingBottom: CitySettingsTableViewConstants.tempLabelPadding,
-                         paddingTrailing: CitySettingsTableViewConstants.tempLabelPadding)
-        
+                         paddingTrailing: CitySettingsTableViewConstants.tempLabelPadding,
+                         width: CitySettingsTableViewConstants.tempLabelWidth)
     }
         
     func set(viewModel: CitySettingsCellViewModel) {

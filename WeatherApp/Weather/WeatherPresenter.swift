@@ -70,5 +70,8 @@ class WeatherPresenter: WeatherPresentationLogic {
                                           temperature: temperature,
                                           description: description)
     }
-  
+    
+    private func cellSize() {
+        
+    }
 }

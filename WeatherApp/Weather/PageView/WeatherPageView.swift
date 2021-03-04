@@ -14,7 +14,7 @@ protocol WeatherPageViewDelegate: class {
 
 class WeatherPageView: UIPageControl {
     
-    let pageControlHeight: CGFloat = 50
+    static let pageControlHeight: CGFloat = 50
     
     weak var delegate: WeatherPageViewDelegate?
 
@@ -47,5 +47,9 @@ class WeatherPageView: UIPageControl {
         } else {
             self.numberOfPages = numberOfPages
         }
+    }
+    
+    func setCurrentPage(page: Int) {
+        currentPage = page
     }
 }
