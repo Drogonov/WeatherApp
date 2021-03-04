@@ -13,7 +13,6 @@ protocol CitySettingsCellViewModel {
     var temperature: String { get }
 }
 
-
 class CitySettingsTableView: UITableView {
     
     // MARK: - Properties
