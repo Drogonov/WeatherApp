@@ -34,12 +34,12 @@ Yep and if you pull tableView down city info will updates)
 * If city name is wrong or some other mistake occur user get .error alert
 
 ## Screenshots
-![Home Screen before data adding](./Screenshots/HomeScreen_empty.png)
-![Home Screen after data was added](./Screenshots/HomeScreenWithData.png)
-![Settings Screen to delete cities and change weather settings](./Screenshots/SettingsScreen.png)
-![City Adding screen](./Screenshots/CityAddScreen.png)
-![User gets alert when city adding](./Screenshots/CityAdded.png)
-![User gets alert if cityName was wrong or data cant be fetched](./Screenshots/SmthGoesWrong.png)
+![Home Screen before data adding](/Screenshots/HomeScreen_empty.png)
+![Home Screen after data was added](/Screenshots/HomeScreenWithData.png)
+![Settings Screen to delete cities and change weather settings](/Screenshots/SettingsScreen.png)
+![City Adding screen](/Screenshots/CityAddScreen.png)
+![User gets alert when city adding](/Screenshots/CityAdded.png)
+![User gets alert if cityName was wrong or data cant be fetched](https://github.com/Drogonov/WeatherApp/blob/main/Screenshots/CityAddScreen.png)
 
 
 ## Technologies
