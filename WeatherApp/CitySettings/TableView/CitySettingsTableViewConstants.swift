@@ -20,7 +20,7 @@ struct CitySettingsTableViewConstants {
     
     static let tempLabelFont = UIFont.systemFont(ofSize: 42)
     static let tempLabelPadding: CGFloat = 8
-    static let tempLabelWidth: CGFloat = 160
+    static let tempLabelWidth: CGFloat = 180
     
     static let borderWidth: CGFloat = 1
     
