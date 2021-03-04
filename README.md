@@ -16,19 +16,19 @@ Also user can change tempType from celsius to fahrenheit, and delete city from C
 
 Yep and if you pull tableView down city info will updates)
 
-- WeatherViewController
+WeatherViewController
 * First loads saved weather, then loads new weather through API call if there are nothing to show it shows label "ДОБАВЬТЕ ГОРОД"
 * After data loaded you can swipe cities by collectionView or pageView
 * Press button to show CitySettingsScreen
 
-- CitySettingsViewController
+CitySettingsViewController
 * Loads saved weather in tableView
 * You can delete city by swiping left (when you do it info through routing will goes to WeatherViewController)
 * In FooterView you can change tempType (when you do it info through routing will goes to WeatherViewController)
 * By pressing plus button in FooterView you can go to CityAddViewController
 * When you pull table view down works API call which update saved info
 
-- CityAddViewController
+CityAddViewController
 * You can add new city (Info goes to CityAddViewController through routing)
 * If all is ok you can see .success alert
 * If city name is wrong or some other mistake occur user get .error alert
@@ -39,7 +39,7 @@ Yep and if you pull tableView down city info will updates)
 ![Settings Screen to delete cities and change weather settings](/Screenshots/SettingsScreen.png)
 ![City Adding screen](/Screenshots/CityAddScreen.png)
 ![User gets alert when city adding](/Screenshots/CityAdded.png)
-![User gets alert if cityName was wrong or data cant be fetched](https://github.com/Drogonov/WeatherApp/blob/main/Screenshots/CityAddScreen.png)
+![User gets alert if cityName was wrong or data cant be fetched](/Screenshots/CityAddScreen.png)
 
 
 ## Technologies
